@@ -1,95 +1,78 @@
+
+"use client"
 import Image from 'next/image'
 import styles from './page.module.css'
+import { useFormik } from 'formik'
+//Get data from form
+import * as Yup from 'yup'
+//for form validation
+import {loginSchema} from './Schemas';
+//get data from schema folder
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+     
+const initialValues ={
+  //initial values FUNCTION NAME and data 
+  name:"",
+  //attribute
+  email : "" ,
+  password: "",
+}
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+const log = () =>{
+const {values, errors, touched, handleBlur, handleChange,handleSubmit} = useFormik({
+  //destructure the values 
+  initialValues: initialValues,
+  //first get initial value
+  validationSchema:  loginSchema,
+  //validation schema is property, pass the loginschema from schema folder
+  onSubmit: (values) => {
+    //callback fnction get data on submit
+    // console.log(values);
+    // actions.resetForm();
+    //reset the form
+  },
+    
+});
+console.log(values)
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+  return(
+    <>
+    <form onSubmit={handleSubmit}>
+      <div className='container'><h1>Login</h1></div>
+      Name: <input type='text' 
+      name='name' 
+      placeholder='name'
+       value={values.name}
+       onChange={handleChange} 
+       onBlur={handleBlur}>
+        
+        </input>
+        { errors.name && touched.name ?( <p className='form-error'>{errors.name}</p>) : null}
+        {/* if true the field then show error otherwise not */}
+        <br/>
+      Email: <input type='text' 
+      name='email' 
+      placeholder='xyz@abccom' 
+      value={values.email}
+       onChange={handleChange}
+        onBlur={handleBlur}>
+          </input>
+          <p className='form-error'>{errors.name}</p>
+          {/* to display the message of requird field of schema */}
+          <br/>
+      Password: <input type='text' 
+      name='password'
+       placeholder='123' 
+       value={values.password}
+       onChange={handleChange} 
+       onBlur={handleBlur}>
+        
+        </input><br/>  
+      
+      <button type ='submit' >Submit</button>
+    </form>
+    </>
   )
 }
+export default log
